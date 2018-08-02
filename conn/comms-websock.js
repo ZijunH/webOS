@@ -12,7 +12,15 @@ function launch(appid){
 		data: data
 	};
 	socket.send(JSON.stringify(package));
-	dprint("gut")
+}
+
+function sendWUpdate(data){
+	var package ={
+		uid: uid,
+		ins: "wUpdate",
+		data: data
+	};
+	socket.send(JSON.stringify(package));
 }
 
 function init() {
@@ -46,7 +54,7 @@ socketHandles["wopen"] = (package) => {
 }
 
 socketHandles["wupdate"] = (package) => {
-	remoteWindowUpdated(data);
+	remoteWindowUpdated(package.data);
 }
 
 // wclose

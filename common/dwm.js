@@ -92,17 +92,13 @@ function moveCont(e) {
 		movTarg.style.left = (panX + parseInt(movTarg.dataset.underLeft)) + "px";
 		movTarg.style.top = (panY + parseInt(movTarg.dataset.underTop)) + "px";
 
-		var updateData = {
+		var data = {
 			uuid: movTarg.id,
-			pos: { y: movTarg.dataset.underTop, x: movTarg.dataset.underLeft },
+			pos: { y: movTarg.style.left, x: movTarg.style.right },
 			width: movTarg.style.width,
 			height: movTarg.style.height,
 		}
-		try {
-			remoteUpdateWindow(updateData);
-		} catch (e) {
-			disconnected();
-		}
+		sendWUpdate(data);
 	}
 }
 function moveEnd(e) {
@@ -202,6 +198,13 @@ function makeWindow(data) {
 	$("#winlist").append(newIco);
 	newIco.addEventListener("click", wndIconClick);
 	//newIco.addEventListener("click",focusWindow);
+	newWnd.style.top = data.pos.x;
+	newWnd.style.left = data.pos.y;
+	newWnd.style.height = data.size.y;
+	newWnd.style.width = data.size.x;
+
+
+
 	focusWnd(newWnd);
 	$("#startMenu").hide();
 }
@@ -261,8 +264,8 @@ function remoteWindowUpdated(data) {
 	wnd = $("#" + data.uuid)[0];
 	wnd.style.top = data.pos.x;
 	wnd.style.left = data.pos.y;
-	wnd.style.width = data.width;
-	wnd.style.height = data.height;
+	wnd.style.width = data.size.x;
+	wnd.style.height = data.size.y;
 }
 
 function remoteCloseWnd(id) {
