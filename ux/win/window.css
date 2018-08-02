@@ -1,0 +1,60 @@
+body{
+	overflow:hidden;
+}
+
+.window{
+	position:absolute;
+	width:100;
+	height:200;
+	resize: both;
+	overflow:auto;
+	border: 1px solid black;
+	background-color: white;
+	display: flex;
+	flex-direction:column;
+	padding-bottom:10px;
+}
+
+.window>div:last-child{
+	flex: 0 1 100%;
+	
+}
+.titlebar>div{
+	position:absolute;
+	top:0;
+	right:0;
+	background-color:red;
+	height:1em;
+}
+
+.ubox{
+	position:absolute;
+	width:400;
+	height:800;
+	border: 1px solid black;
+	
+}
+
+.window.focused{
+	z-index:100;
+	
+}
+
+.window.focused>.titlebar{
+	background: blue;
+}
+
+.titlebar{
+	height: 1em;
+	width:100%;
+	background: grey;
+	overflow:hidden;
+	color:white;
+	user-select:none;
+}
+
+.window>iframe{
+	resize:none;
+	width:100%;
+	height: 100%;
+}

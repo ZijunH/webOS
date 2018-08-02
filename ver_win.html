@@ -1,0 +1,125 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="common/common.css">
+
+		<link rel="stylesheet" type="text/css" href="ux/win/window.css">
+		<link rel="stylesheet" type="text/css" href="ux/win/taskbar.css">
+		<script src="jquery.min.js"></script>
+		<script src="conn/conman.js"></script>
+		<script src="common/dwm.js"></script>
+	</head>
+	<body>
+		<div id="splash">
+			<div></div>
+			<div id="simplecon">
+				<h1>Welcome to ColOSus!</h1>
+				<img src="common/henlo.png"></img>
+				<p>To get started, enter your workspace code:</p>
+				<input type="text" id="connstr"></input>
+				<button onclick="tryconn($('#connstr')[0].value)">Connect</button>
+				<br></br>
+				<button onclick="$('#advancedconn').show(); $('#simplecon').hide()">Advanced</button>
+			</div>
+			<div id="advancedconn" style="display:none">
+				<p>Connect with a web address in websockets:</p>
+				<input id="websocketAddress" type="text" placeholder="ws://address.com"></input>
+				<button onclick="advcon('websocket')">Connect with Websocket</button>
+				<br></br>
+				<p>Or connect to your own Firebase server:</p>
+				<input id="firebaseConfig" type="text" placeholder="Enter JSON config string ..."></input>
+				<button onclick="advcon('firebase')">Connect with Firebase</button>
+
+				<br></br>
+				<button onclick="localDebug=true; $('#splash').hide()">Debug</button>
+			</div>
+			<div></div>
+		</div>
+		<p id="disconnectedMessage" style="display:none">Server is not connected... ;-;</p>
+		<div id="desktop">
+
+
+		</div>
+		<div id="taskbar">
+			<img src="ux/win/charm.jpg" onclick="showStartMenu()" ></img>
+			<!-- list out the windows here-->
+			<div id="winlist"></div>
+
+			<!-- also list out users-->
+			<div id="userlist"></div>
+			<!-- on the left hand side, list out saved views-->
+			<div id="viewlist"></div>
+			<!-- show time as well, make it full screen supportable?-->
+		</div>
+		<div id="startMenu">
+			<div id="sMcontainer">
+				<div id="sMsideBar">
+					<div></div>
+					<img src="ux/win/user.jpg"></img>
+					<img src="ux/win/settings.jpg"></img>
+				</div>
+				<div id="sMapps">
+					<button onclick="makeWindow($('#wndSourceText')[0].value)">Make new window</button>
+					<button onclick="makeWindow('settingswnd')">Open settings</button>
+					<input id="wndSourceText" type="text" value="http://google.com.au" placeholder="Enter URL here..."></input>
+				</div>
+			</div>
+
+
+		</div>
+
+		<div id="proto">
+			<div class="window">
+				<div class="titlebar"><span>NAME OF WINDOW</span><div>X</div></div>
+			</div>
+			<div class="uBox">
+				user_23849273
+			</div>
+			<div class="wnd_barItem barItem">
+				<img src="ux/win/item.jpg"></img>
+			</div>
+			<div class="usr_barItem barItem">
+				<img src="ux/win/user.jpg"></img>
+			</div>
+
+		</div>
+		<div id="OSWnd">
+			<!-- Special inbuilt windows window is special -->
+			<div id="settingswnd" data-appname="Settings">
+				<link rel="stylesheet" type="text/css" href="ux/win/settings.css">
+				<div>
+				<!--sidebar -->
+					<div>
+						<span>Connection</span>
+						<br>
+						<span>UI</span>
+					</div>
+				</div>
+				<!-- tabs -->
+				<div>
+
+					<div>
+						<h2>Connection</h2>
+						<div>
+							<input type="radio" checked id="firebase" name="conntype" />
+							<label for="firebase">Firebase</label>
+							<input type="checkbox" checked id="fbDefault">
+							<label for="fbDefault">Use default client</label>
+							<div id="fbcustomdiv">
+
+							</div>
+						</div>
+						<input type="radio" id="firebase" name="conntype" />
+						<label for="websock">WebSocket</label>
+					</div>
+				</div>
+
+			</div>
+
+
+
+		</div>
+
+
+			</body>
+
+		</html>

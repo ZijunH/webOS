@@ -1,0 +1,11 @@
+#settingswnd{
+	display: flex;
+	flex-direction:row;
+}
+
+#settingswnd>div:nth-child(2){
+	flex: 0 0 80px;
+	overflow-y: auto;
+	background-color:black;
+	color:white;
+}

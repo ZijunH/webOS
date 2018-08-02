@@ -1,0 +1,28 @@
+*{
+	user-select:none;
+}
+
+body{
+	margin:0;
+}
+
+#proto{
+	display:none;
+}
+#OSwnd{
+	display:none;
+}
+#splash{
+	position:absolute;
+	width:100%;
+	height:100%;
+	text-align:center;
+	background: radial-gradient(black, black, darkgrey);
+	color: white;
+	z-index:10000;
+	display:flex;
+	flex-direction:column;
+}
+#splash>div{
+	flex: 1 1 auto;
+}

@@ -1,0 +1,17 @@
+{
+  "name": "websocks-host-nodejs",
+  "version": "1.0.0",
+  "description": "A nodejs websocket host, for testing. ",
+  "main": "host.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "websockets"
+  ],
+  "author": "Steven Liu",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^5.2.1"
+  }
+}
