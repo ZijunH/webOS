@@ -2,6 +2,19 @@ var socketHandles = {};
 var socket;
 var uid;
 
+function launch(appid){
+	var data = {
+		appid: appid
+	};
+	var package ={
+		uid: uid,
+		ins: "launch",
+		data: data
+	};
+	socket.send(JSON.stringify(package));
+	dprint("gut")
+}
+
 function init() {
 	dprint(wsAddress);
 	socket = new WebSocket(wsAddress);
@@ -21,7 +34,7 @@ function init() {
 		}
 	}
 }
-
+init();
 socketHandles["handshake"] = (package) => {
 	uid = package.uid;
 	dprint(uid);
@@ -30,7 +43,6 @@ socketHandles["handshake"] = (package) => {
 socketHandles["wopen"] = (package) => {
 	//uuid, appid, pos, size
 	makeWindow(package.data);
-	
 }
 
 socketHandles["wupdate"] = (package) => {

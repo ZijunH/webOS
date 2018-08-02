@@ -181,10 +181,11 @@ function closeWnd(e) {
 
 
 
-function makeWindow(appname) {
+function makeWindow(data) {
+	dprint(data);
 	// Create the window div
 	newWnd = $("#proto>.window")[0].cloneNode(true);
-	newWnd.id = gen_uid();
+	newWnd.id = data.uuid;
 	$("#desktop").append(newWnd);
 	newWnd.children[0].addEventListener("mousedown", moveStart);
 	newWnd.children[0].children[1].addEventListener("mousedown", closeWnd);
@@ -192,13 +193,9 @@ function makeWindow(appname) {
 	newWnd.dataset.underLeft = newWnd.offsetLeft - panX;
 	newWnd.dataset.underTop = newWnd.offsetTop - panY;
 	//Handle special windows
-	try {
-		newWnd.append($("#" + appname)[0]);
-		newWnd.children[0].children[0].innerText = $("#" + appname)[0].dataset.appname;
-	} catch (e) {
-		newWnd.append(document.createElement("iframe"));
-		newWnd.children[1].src = appname;
-	}
+	newWnd.children[0].children[0].innerText = data.appid;
+	newWnd.append(document.createElement("iframe"));
+	newWnd.children[1].src = data.appid;
 	// Create the taskbar icon
 	newIco = $("#proto>.wnd_barItem")[0].cloneNode(true);
 	newIco.id = "i_" + newWnd.id;
