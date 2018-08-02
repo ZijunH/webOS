@@ -17,7 +17,7 @@ function launch(appid){
 function sendWUpdate(data){
 	var package ={
 		uid: uid,
-		ins: "wUpdate",
+		ins: "wupdate",
 		data: data
 	};
 	socket.send(JSON.stringify(package));
