@@ -182,16 +182,6 @@ function closeWnd(e) {
 
 
 function makeWindow(appname) {
-	//Forward the request to the server
-	if (!localDebug) {
-		try {
-			remoteNewWindow(appname);
-		} catch (e) {
-			disconnected();
-		}
-		return;
-	}
-
 	// Create the window div
 	newWnd = $("#proto>.window")[0].cloneNode(true);
 	newWnd.id = gen_uid();
@@ -206,11 +196,9 @@ function makeWindow(appname) {
 		newWnd.append($("#" + appname)[0]);
 		newWnd.children[0].children[0].innerText = $("#" + appname)[0].dataset.appname;
 	} catch (e) {
-
 		newWnd.append(document.createElement("iframe"));
 		newWnd.children[1].src = appname;
 	}
-
 	// Create the taskbar icon
 	newIco = $("#proto>.wnd_barItem")[0].cloneNode(true);
 	newIco.id = "i_" + newWnd.id;
@@ -219,20 +207,6 @@ function makeWindow(appname) {
 	//newIco.addEventListener("click",focusWindow);
 	focusWnd(newWnd);
 	$("#startMenu").hide();
-
-	//report to remote
-	var datapackage = {};
-	datapackage.appname = appname;
-	datapackage.top = newWnd.style.top;
-	datapackage.left = newWnd.style.left;
-	datapackage.height = newWnd.style.height;
-	datapackage.width = newWnd.style.width;
-	datapackage.id = newWnd.id;
-	try {
-		remoteNewWindow(datapackage);
-	} catch (e) {
-		disconnected();
-	}
 }
 
 /////USER STUFFS MANANAGEMENT

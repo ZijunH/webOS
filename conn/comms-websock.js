@@ -2,14 +2,14 @@ var socketHandles = {};
 var socket;
 var uid;
 
-function init(sessionID) {
+function init() {
 	dprint(wsAddress);
 	socket = new WebSocket(wsAddress);
 	socket.onopen = () => {
-		var initialRequest = {
+		var package = {
 			ins: "handshake"
 		}
-		socket.send(JSON.stringify(initialRequest));
+		socket.send(JSON.stringify(package));
 		socket.onmessage = function(e) {
 			var recievedData = JSON.parse(e.data);
 			if (socketHandles[recievedData.ins]) {
@@ -22,47 +22,20 @@ function init(sessionID) {
 	}
 }
 
-init(wsSessionID);
-
-
-socketHandles["handshake"] = (data) => {
-	uid = data.uid;
+socketHandles["handshake"] = (package) => {
+	uid = package.uid;
 	dprint(uid);
 }
 
-
-socketHandles["wopen"] = (data) => {
+socketHandles["wopen"] = (package) => {
 	//uuid, appid, pos, size
-	remoteMakeWindow(data.appid);
+	makeWindow(package.data);
+	
 }
 
-function remoteNewWindow(appid) {
-	var updateContent = {
-		uid: uid,
-		ins: "launch",
-		data: { appid: appid }
-	};
-	// updateContent=Object.assign(data,updateContent);
-	socket.send(JSON.stringify(updateContent));
-}
-
-socketHandles["wupdate"] = (data) => {
+socketHandles["wupdate"] = (package) => {
 	remoteWindowUpdated(data);
 }
-
-function remoteUpdateWindow(data) {
-	var updateContent = {
-		ins: "wupdate",
-		uid: uid,
-		data: data
-	};
-	socket.send(JSON.stringify(updateContent));
-}
-
-function viewportPan(panX, panY) {
-	return;
-}
-
 
 // wclose
 // wopen 窗口 id
