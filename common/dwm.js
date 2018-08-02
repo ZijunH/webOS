@@ -94,9 +94,8 @@ function moveCont(e) {
 
 		var data = {
 			uuid: movTarg.id,
-			pos: { y: movTarg.style.left, x: movTarg.style.right },
-			width: movTarg.style.width,
-			height: movTarg.style.height,
+			pos: { y: parseInt(movTarg.style.left), x: parseInt(movTarg.style.top) },
+			size: {x: parseInt(movTarg.style.width), y: parseInt(movTarg.style.height)}
 		}
 		sendWUpdate(data);
 	}
