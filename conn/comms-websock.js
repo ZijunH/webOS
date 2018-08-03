@@ -28,7 +28,10 @@ function init() {
 	socket = new WebSocket(wsAddress);
 	socket.onopen = () => {
 		var package = {
-			ins: "handshake"
+			ins: "handshake",
+			data: {
+				username: "test"
+			}
 		}
 		socket.send(JSON.stringify(package));
 		socket.onmessage = function (e) {
