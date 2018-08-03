@@ -2,11 +2,11 @@ var socketHandles = {};
 var socket;
 var uid;
 
-function launch(appid){
+function launch(appid) {
 	var data = {
 		appid: appid
 	};
-	var package ={
+	var package = {
 		uid: uid,
 		ins: "launch",
 		data: data
@@ -14,8 +14,8 @@ function launch(appid){
 	socket.send(JSON.stringify(package));
 }
 
-function sendWUpdate(data){
-	var package ={
+function sendWUpdate(data) {
+	var package = {
 		uid: uid,
 		ins: "wupdate",
 		data: data
@@ -31,12 +31,12 @@ function init() {
 			ins: "handshake"
 		}
 		socket.send(JSON.stringify(package));
-		socket.onmessage = function(e) {
+		socket.onmessage = function (e) {
 			var recievedData = JSON.parse(e.data);
 			if (socketHandles[recievedData.ins]) {
 				socketHandles[recievedData.ins](recievedData);
 				uid = recievedData.uid;
-			}else{
+			} else {
 				dprint("ins" + recievedData.ins + "not found");
 			}
 		}

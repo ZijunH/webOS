@@ -16,7 +16,7 @@ function gen_uid() {
 
 $(document).ready(() => {
 	$("body").on("mouseup", moveEnd);
-	$("body").on("mousemove", moveCont);
+
 
 	$("body").on("mousedown", defocus_all);
 
@@ -58,8 +58,8 @@ function panMove(e) {
 
 		//Move literally every window
 		$("#desktop>div").each((i, e) => {
-			e.style.left = panX + parseInt(e.dataset.underLeft) + "px";
-			e.style.top = panY + parseInt(e.dataset.underTop) + "px";
+			e.style.left = panX + parseFloat(e.dataset.underLeft) + "px";
+			e.style.top = panY + parseFloat(e.dataset.underTop) + "px";
 		});
 	}
 }
@@ -73,29 +73,34 @@ function panEnd(e) {
 var movTarg;
 var moving = false;
 
+function getMouseOffset(e) {
+	var element = e.currentTarget.parentElement;
+	var offsetX = 0;
+	var offsetY = 0;
+	var mx;
+	var my;
+	offsetX += parseFloat($(element).css("padding-left")) + parseFloat($(element).css("border-left-width")) + parseFloat(element.style.left);
+	offsetY += parseFloat($(element).css("padding-top")) + parseFloat($(element).css("border-top-width")) + parseFloat(element.style.top);
+	mx = e.pageX - offsetX;
+	my = e.pageY - offsetY;
+	return { x: mx, y: my };
+}
 function moveStart(e) {
 	movTarg = e.currentTarget.parentElement;
-	movTarg.dataset.delX = e.pageX;
-	movTarg.dataset.delY = e.pageY;
+	var mouse = getMouseOffset(e);
+	movTarg.dataset.dragoffx = mouse.x;
+	movTarg.dataset.dragoffy = mouse.y;
 	moving = true;
-	//movTarg.dataset.moving=true;
 }
-
 function moveCont(e) {
 	if (moving) {
-		movTarg.dataset.underLeft = parseInt(movTarg.dataset.underLeft) + parseInt(e.pageX) - parseInt(movTarg.dataset.delX);
-		movTarg.dataset.underTop = parseInt(movTarg.dataset.underTop) + parseInt(e.pageY) - parseInt(movTarg.dataset.delY);
-
-		movTarg.dataset.delX = e.pageX;
-		movTarg.dataset.delY = e.pageY;
-
-		movTarg.style.left = (panX + parseInt(movTarg.dataset.underLeft)) + "px";
-		movTarg.style.top = (panY + parseInt(movTarg.dataset.underTop)) + "px";
-
+		var mouse = getMouseOffset(e);
+		movTarg.style.left = (panX + e.pageX - movTarg.dataset.dragoffx ) + "px";
+		movTarg.style.top = (panY + e.pageY - movTarg.dataset.dragoffy) + "px";
 		var data = {
 			uuid: movTarg.id,
-			pos: { y: parseInt(movTarg.style.left), x: parseInt(movTarg.style.top) },
-			size: {x: parseInt(movTarg.style.width), y: parseInt(movTarg.style.height)}
+			pos: { y: parseFloat(movTarg.style.left), x: parseFloat(movTarg.style.top) },
+			size: { x: parseFloat(movTarg.style.width), y: parseFloat(movTarg.style.height) }
 		}
 		sendWUpdate(data);
 	}
@@ -183,6 +188,7 @@ function makeWindow(data) {
 	newWnd.id = data.uuid;
 	$("#desktop").append(newWnd);
 	newWnd.children[0].addEventListener("mousedown", moveStart);
+	newWnd.children[0].addEventListener("mousemove", moveCont);;
 	newWnd.children[0].children[1].addEventListener("mousedown", closeWnd);
 	newWnd.addEventListener("mousedown", focusWnd);
 	newWnd.dataset.underLeft = newWnd.offsetLeft - panX;
