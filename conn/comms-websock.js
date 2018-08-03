@@ -40,7 +40,7 @@ function init() {
 				socketHandles[recievedData.ins](recievedData);
 				uid = recievedData.uid;
 			} else {
-				dprint("ins " + recievedData.ins + "not found");
+				dprint("ins " + recievedData.ins + " not found");
 			}
 		}
 	}
